@@ -1,9 +1,12 @@
 import os
+from google.genai import types
+
 
 """
 Function that fetches the file content of a file
 """
 def get_file_content(working_directory, file_path):
+    file_path = os.path.join(working_directory, file_path)
     # Check if the file path is inside the working directory
     working_absolute_path = os.path.abspath(working_directory)
     print(f"Working abs path: {working_absolute_path}")
@@ -29,3 +32,22 @@ def get_file_content(working_directory, file_path):
         except Exception as e:
             print("Error: {e}")
         return content
+
+
+schema_get_file_content = types.FunctionDeclaration(
+    name="get_file_content",
+    description="Get the content of a file in text format",
+    parameters=types.Schema(
+        type=types.Type.OBJECT,
+        properties={
+            "file_path": types.Schema(
+                type=types.Type.STRING,
+                description="File path relative to the working directory",
+            ),
+            "working_directory": types.Schema(
+                type=types.Type.STRING,
+                description="The working directory"
+            )
+        },
+    ),
+)

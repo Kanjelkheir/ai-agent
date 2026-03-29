@@ -1,6 +1,8 @@
 import os
+from google.genai import types
 
 def write_file(working_directory, file_path, content):
+    file_path = os.path.join(working_directory, file_path)
     # check if both files are in the same directory
     working_absolute_path = os.path.abspath(working_directory)
     absolute_file_path = os.path.abspath(file_path)
@@ -15,6 +17,7 @@ def write_file(working_directory, file_path, content):
     directory = os.path.dirname(absolute_file_path)
     os.makedirs(directory, exist_ok=True)
     # open the file in write mode and override the content
+    print(f"Absolute file path: {absolute_file_path}")
     with open(absolute_file_path, "w") as file:
         try:
             file.write(content)
@@ -22,3 +25,24 @@ def write_file(working_directory, file_path, content):
         except Exception as e:
             print(f"Error {e}")
 
+schema_write_file_content = types.FunctionDeclaration(
+    name="write_file",
+    description="Write a new content of the file, it also overrides it",
+    parameters=types.Schema(
+        type=types.Type.OBJECT,
+        properties={
+            "content": types.Schema(
+                type=types.Type.STRING,
+                description="The new content to be written to the file",
+            ),
+            "file_path": types.Schema(
+                type=types.Type.STRING,
+                description="The path of the file to be written to relative to the working directory"
+            ),
+            "working_directory": types.Schema(
+                type=types.Type.STRING,
+                description="The working directory"
+            )
+        },
+    ),
+)

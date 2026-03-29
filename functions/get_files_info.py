@@ -1,11 +1,13 @@
 import os
 import pdb
+from google.genai import types
+from .utils import File
+
 
 """
 Function that fetches the file info and returns them as string output
 """
 def get_files_info(working_directory, directory="."):
-
     working_absolute_path = os.path.abspath(working_directory)
     full_path = os.path.join(working_absolute_path, directory)
     target_dir = os.path.normpath(full_path)
@@ -26,7 +28,7 @@ def get_files_info(working_directory, directory="."):
     for file in dirs:
         # get and store file name
         file_size = None
-        is_dir = None
+        is_dir = False
         print(f"File is {file}")
         print(f"Target dir is {target_dir}")
         print(f"Target now is {os.path.join(target_dir, file)}")
@@ -52,4 +54,16 @@ def get_files_info(working_directory, directory="."):
 
     return output
 
-
+schema_get_files_info = types.FunctionDeclaration(
+    name="get_files_info",
+    description="Lists files in a specified directory relative to the working directory, providing file size and directory status",
+    parameters=types.Schema(
+        type=types.Type.OBJECT,
+        properties={
+            "directory": types.Schema(
+                type=types.Type.STRING,
+                description="Directory path to list files from, relative to the working directory (default is the working directory itself)",
+            ),
+        },
+    ),
+)
