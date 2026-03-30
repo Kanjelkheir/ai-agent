@@ -4,12 +4,10 @@ from typing import List
 from google.genai import types
 
 def run_python_file(working_directory, file_path, args=None):
-    print(type(args))
     file_path = os.path.join(working_directory, file_path)
     # check if the file path is in the working directory
     working_absolute_path = os.path.abspath(working_directory)
     absolute_file_path = os.path.abspath(file_path)
-    print(absolute_file_path)
     valid_target_dir = os.path.commonpath([working_absolute_path, absolute_file_path])
     if valid_target_dir == False:
         raise Exception(f'Error: Cannot execute "{file_path}" as it is outside the permitted working directory')
@@ -20,13 +18,11 @@ def run_python_file(working_directory, file_path, args=None):
     # check if file name ends with '.py'
     file_extension = os.path.normpath(absolute_file_path)[-3:]
     if file_extension != '.py':
-        print(f"File extension: {file_extension}")
         raise Exception(f'Error: "{file_path}" is not a Python file')
 
     # use subprocess to run the command
     result = ""
     try:
-        print(absolute_file_path)
         if args is None:
             command: List[str] = ["python", absolute_file_path]
         else:
