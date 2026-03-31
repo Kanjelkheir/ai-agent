@@ -29,9 +29,6 @@ def get_files_info(working_directory, directory="."):
         # get and store file name
         file_size = None
         is_dir = False
-        print(f"File is {file}")
-        print(f"Target dir is {target_dir}")
-        print(f"Target now is {os.path.join(target_dir, file)}")
         try:
             file_size = os.path.getsize(os.path.join(target_dir, file))
             is_dir: bool = os.path.isdir(os.path.join(target_dir, file))
@@ -45,8 +42,6 @@ def get_files_info(working_directory, directory="."):
 
     output = ""
     for file in files:
-        print(file.size)
-        print(file.data())
         # for each file append a data string
         output.join(file.data())
         output += file.data()

@@ -17,7 +17,6 @@ def write_file(working_directory, file_path, content):
     directory = os.path.dirname(absolute_file_path)
     os.makedirs(directory, exist_ok=True)
     # open the file in write mode and override the content
-    print(f"Absolute file path: {absolute_file_path}")
     with open(absolute_file_path, "w") as file:
         try:
             file.write(content)
