@@ -66,11 +66,12 @@ def main():
             current_prompt = prompt
             while True:
                 runtime(model_name, current_prompt)
+            if args.verbose == True:
+                print(f"Prompt: {prompt}")
     except Exception as e:
         print(e)
 
 
-    print("finished loop")
     try:
         api_key = get_api_key()
     except Exception as e:
@@ -81,7 +82,7 @@ def main():
     # create the genai client
     try:
         client = genai.Client(api_key=api_key)
-        system_prompt = prompts.gemini_prompt
+        system_prompt = prompts.system_prompt
         config=types.GenerateContentConfig(system_instruction=system_prompt, tools=[available_functions])
         for i in range(20):
             response  = client.models.generate_content(model='gemini-2.5-flash', contents=messages, config=config)
