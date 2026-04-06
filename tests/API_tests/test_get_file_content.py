@@ -1,4 +1,4 @@
-from ...functions.get_file_content import get_file_content
+from functions.get_file_content import get_file_content
 
 try:
     content = get_file_content("calculator", "lorem.txt")

@@ -7,5 +7,9 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "google-genai==1.12.1",
+    "nuitka>=4.0.7",
+    "ollama>=0.6.1",
+    "platformdirs>=4.9.4",
     "python-dotenv==1.1.0",
+    "questionary>=2.1.1",
 ]

@@ -44,6 +44,10 @@ class TestCalculator(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.calculator.evaluate("+ 3")
 
+    def test_chained_addition(self):
+        result = self.calculator.evaluate("1 + 2 + 3")
+        self.assertEqual(result, 6)
+
 
 if __name__ == "__main__":
     unittest.main()
