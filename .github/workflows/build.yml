@@ -1,0 +1,33 @@
+name: Build Binary Executables
+on: [push]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        # This tells GitHub to run the job twice: once on Linux, once on Windows
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+
+      - name: Set up Python
+        run: uv python install 3.13
+
+      - name: Install Dependencies
+        run: uv sync
+
+      - name: Build with PyInstaller
+        # This runs the build command. On Windows, it makes an .exe
+        run: uv run pyinstaller --onefile --name "ai-agent" main.py
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-agent-${{ matrix.os }}
+          path: dist/
