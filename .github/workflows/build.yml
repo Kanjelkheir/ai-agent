@@ -19,11 +19,12 @@ jobs:
       - name: Set up Python
         run: uv python install 3.13
 
+      # This is the missing piece! It installs everything in your pyproject.toml
       - name: Install Dependencies
-        run: uv sync
+        run: uv sync --all-extras --dev
 
       - name: Build with PyInstaller
-        # This runs the build command. On Windows, it makes an .exe
+        # We use 'uv run' so it uses the pyinstaller installed in the .venv
         run: uv run pyinstaller --onefile --name "ai-agent" main.py
 
       - name: Upload Artifact
