@@ -1,4 +1,5 @@
 import subprocess
+import sys
 from .utils import Model
 import questionary
 import ollama
@@ -15,18 +16,21 @@ Gets the current models installed on Ollama
 """
 def get_models():
     # Fetch the list of models
-    response = ollama.list()
-    models = list()    
-    # Extract just the names
-    for m in response['models']:
-        model_full_name = m['model'].split(':')
-        model_name = model_full_name[0]
-        model_version = model_full_name[1]
-        model = Model(model_name, model_version)
-        models.append(model)
+    try:
+        response = ollama.list()
+        models = list()    
+        # Extract just the names
+        for m in response['models']:
+            model_full_name = m['model'].split(':')
+            model_name = model_full_name[0]
+            model_version = model_full_name[1]
+            model = Model(model_name, model_version)
+            models.append(model)
 
-    return models
-
+        return models
+    except Exception as e:
+         print(f"Error: {e}")
+         sys.exit(1)
 def select_local_model():
     try:
             # Get models
@@ -50,7 +54,7 @@ def select_model():
             choice = select_local_model()
             if choice == None:
                 print("user cancelled selection")
-                exit(1)
+                sys.exit(1)
 
             model_name = choice[0]
             model_version = choice[1]
@@ -101,6 +105,6 @@ def call_local_model():
                         })
           else:
                print(response_text)
-               exit(0)
+               sys.exit(0)
                
      return call
